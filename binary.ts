@@ -9,7 +9,6 @@ type IntRange<F extends number, T extends number> = Exclude<
   Enumerate<T>,
   Enumerate<F>
 >
-type P = Enumerate<10>
 
 type T = IntRange<0, 100>
 

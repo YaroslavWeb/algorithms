@@ -5,6 +5,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "tsc -w",
-    "start:binary": "node dist/binary"
+    "start:binary": "node dist/binary",
+    "start:seances": "node dist/seances"
   }
 }
