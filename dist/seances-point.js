@@ -61,32 +61,22 @@ const seances = [
     { start: '19:32:28', finish: '19:32:28' },
     { start: '22:48:29', finish: '22:48:31' },
 ];
-const parseInterval = (start, end) => {
-    const [sh, sm, ss] = start.split(':').map(Number);
-    const [eh, em, es] = end.split(':').map(Number);
-    const startSeconds = sh * 60 * 60 + sm * 60 + ss;
-    const endSeconds = eh * 60 * 60 + em * 60 + es;
-    if (endSeconds < startSeconds) {
-        const h24 = 60 * 60 * 24;
-        return [startSeconds, endSeconds + h24];
+const dayInSeconds = 24 * 60 * 60;
+const period = [...Array(dayInSeconds)].fill(0);
+const timeToSeconds = (time) => {
+    const [h, m, s] = time.split(':').map(Number);
+    return h * 3600 + m * 60 + s;
+};
+let max = 0;
+seances.forEach((seance) => {
+    let start = timeToSeconds(seance['start']);
+    let finish = timeToSeconds(seance['finish']);
+    if (finish < start) {
+        finish = dayInSeconds;
     }
-    return [startSeconds, endSeconds];
-};
-const calculateIntersections = () => {
-    const valuableSeances = seances.map((seance) => parseInterval(seance.start, seance.finish));
-    const history = new Map();
-    valuableSeances.forEach((seanceA, index, arr) => {
-        arr.slice(index + 1).forEach((seanceB) => {
-            if (Math.max(seanceA[0], seanceB[0]) < Math.min(seanceA[1], seanceB[1])) {
-                history.get(index)?.push(seanceB) ?? history.set(index, [seanceB]);
-            }
-        });
-    });
-    const res = Array.from(history.values()).reduce((acc, item) => {
-        if (acc < item.length)
-            return item.length;
-        return acc;
-    }, 0);
-    return res;
-};
-console.log(calculateIntersections()); // 33
+    for (let i = start; i < finish; i++) {
+        period[i] += 1;
+        max = Math.max(max, period[i]);
+    }
+});
+console.log(max);

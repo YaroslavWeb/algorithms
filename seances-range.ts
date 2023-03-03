@@ -1,5 +1,5 @@
 // Нужно найти максимальное количество одновременных сеансов в компьютерном клубе (на 1 компе одновременно может быть только 1 сеанс)
-const seances = [
+const seances2 = [
   { start: '02:10:42', finish: '02:40:43' },
   { start: '02:25:45', finish: '02:40:48' },
   { start: '00:00:18', finish: '04:00:19' },
@@ -74,14 +74,14 @@ const parseInterval = (start: string, end: string): [number, number] => {
 }
 
 const calculateIntersections = () => {
-  const valuableSeances = seances.map((seance) =>
+  const valuableSeances = seances2.map((seance) =>
     parseInterval(seance.start, seance.finish)
   )
 
   const history = new Map<number, [number, number][]>()
 
   valuableSeances.forEach((seanceA, index, arr) => {
-    arr.slice(index + 1).forEach((seanceB) => {
+    arr.forEach((seanceB) => {
       if (Math.max(seanceA[0], seanceB[0]) < Math.min(seanceA[1], seanceB[1])) {
         history.get(index)?.push(seanceB) ?? history.set(index, [seanceB])
       }
@@ -96,4 +96,4 @@ const calculateIntersections = () => {
   return res
 }
 
-console.log(calculateIntersections()) // 33
+console.log(calculateIntersections()) // 45

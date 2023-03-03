@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "tsc -w",
     "start:binary": "node dist/binary",
-    "start:seances": "node dist/seances"
+    "start:seances-range": "node dist/seances-range",
+    "start:seances-point": "node dist/seances-point"
   }
 }
