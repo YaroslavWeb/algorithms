@@ -69,21 +69,25 @@ const timeToSeconds = (time: string) => {
   return h * 3600 + m * 60 + s
 }
 
-let max = 0
+const findMaxSeancesInPoint = (
+  seances: { start: string; finish: string }[]
+) => {
+  let max = 0
 
-seances.forEach((seance) => {
-  let start = timeToSeconds(seance['start'])
-  let finish = timeToSeconds(seance['finish'])
+  seances.forEach((seance) => {
+    let start = timeToSeconds(seance['start'])
+    let finish = timeToSeconds(seance['finish'])
 
-  if (finish < start) {
-    finish = dayInSeconds
-  }
+    if (finish < start) {
+      finish = dayInSeconds
+    }
 
-  for (let i = start; i < finish; i++) {
-    period[i] += 1
+    for (let i = start; i < finish; i++) {
+      period[i] += 1
+      max = Math.max(max, period[i])
+    }
+  })
+  return max
+}
 
-    max = Math.max(max, period[i])
-  }
-})
-
-console.log(max)
+console.log(findMaxSeancesInPoint(seances))

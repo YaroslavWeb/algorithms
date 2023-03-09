@@ -67,16 +67,19 @@ const timeToSeconds = (time) => {
     const [h, m, s] = time.split(':').map(Number);
     return h * 3600 + m * 60 + s;
 };
-let max = 0;
-seances.forEach((seance) => {
-    let start = timeToSeconds(seance['start']);
-    let finish = timeToSeconds(seance['finish']);
-    if (finish < start) {
-        finish = dayInSeconds;
-    }
-    for (let i = start; i < finish; i++) {
-        period[i] += 1;
-        max = Math.max(max, period[i]);
-    }
-});
-console.log(max);
+const findMaxSeancesInPoint = (seances) => {
+    let max = 0;
+    seances.forEach((seance) => {
+        let start = timeToSeconds(seance['start']);
+        let finish = timeToSeconds(seance['finish']);
+        if (finish < start) {
+            finish = dayInSeconds;
+        }
+        for (let i = start; i < finish; i++) {
+            period[i] += 1;
+            max = Math.max(max, period[i]);
+        }
+    });
+    return max;
+};
+console.log(findMaxSeancesInPoint(seances));
